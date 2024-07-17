@@ -16,6 +16,9 @@ function Login() {
     //define state validation
     const [validation, setValidation] = useState([]);
 
+    //define state loading
+    const [loading, setLoading] = useState(false);
+
     //define history
     const history = useNavigate();
 
@@ -34,6 +37,9 @@ function Login() {
     const loginHandler = async (e) => {
         e.preventDefault();
         
+        //set loading to true
+        setLoading(true);
+
         //initialize formData
         const formData = new FormData();
 
@@ -56,10 +62,15 @@ function Login() {
             //assign error to state "validation"
             setValidation(error.response.data);
         })
+        .finally(() => {
+
+            //set loading to false
+            setLoading(false);
+        })
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className={`flex items-center justify-center h-screen bg-gray-100 ${loading && 'opacity-75'}`}>
             <div className="w-96">
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <h4 className="text-black text-2xl font-bold mb-4">HALAMAN LOGIN</h4>
@@ -95,7 +106,9 @@ function Login() {
                             }
                         </div>
                         <div className="flex items-center justify-between">
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">LOGIN</button>
+                            <button type="submit" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${loading && 'opacity-50 cursor-not-allowed'}`} disabled={loading}>
+                                {loading ? 'LOADING...' : 'LOGIN'}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -106,3 +119,4 @@ function Login() {
 }
 
 export default Login;
+
