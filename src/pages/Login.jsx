@@ -1,10 +1,6 @@
 //import hook react
 import React, { useState, useEffect } from 'react';
-
-//import hook useHitory from react router dom
 import { useNavigate } from 'react-router-dom';
-
-//import axios
 import axios from 'axios';
 
 function Login() {
@@ -31,7 +27,7 @@ function Login() {
             //redirect page dashboard
             history('/dashboard');
         }
-    }, []);
+    }, [history]);
 
     //function "loginHanlder"
     const loginHandler = async (e) => {
@@ -77,8 +73,9 @@ function Login() {
                     <hr/>
                     {
                         validation.message && (
-                            <div className="text-red-500 p-2 my-2">
-                                {validation.message}
+                            <div className="p-2 my-2 bg-red-200 shadow-md rounded">
+                                <p className='text-slate-500'>{validation.message}</p>
+                                
                             </div>
                         )
                     }
@@ -119,4 +116,5 @@ function Login() {
 }
 
 export default Login;
+
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout/Index';
 
@@ -11,7 +11,7 @@ function Dashboard() {
     if (!token) {
       history('/');
     }
-  }, []);
+  }, [history]);
 
   return (
     <Layout>
