@@ -21,13 +21,11 @@ const history = useNavigate();
   return (
     <Layout>
       <div className="lg:grid lg:grid-cols-2 gap-4">
-        <div className="lg:col-span-1">
-          <h2 className="text-lg font-bold">Lead Channels</h2>
-          <LeadChannel />
-        </div>
-        <div className="lg:col-span-1">
-          <h2 className="text-lg font-bold">Lead Medias</h2>
-          <LeadMedias />
+      <div className="lg:col-span-1">
+          <div>
+            <h2 className="text-lg font-bold">Lead Statuses</h2>
+            <LeadStatuses />
+          </div>
         </div>
         <div className="lg:col-span-1">
           <div>
@@ -40,10 +38,12 @@ const history = useNavigate();
           <LeadType />
         </div>
         <div className="lg:col-span-1">
-          <div>
-            <h2 className="text-lg font-bold">Lead Statuses</h2>
-            <LeadStatuses />
-          </div>
+          <h2 className="text-lg font-bold">Lead Channels</h2>
+          <LeadChannel />
+        </div>
+        <div className="lg:col-span-1">
+          <h2 className="text-lg font-bold">Lead Medias</h2>
+          <LeadMedias />
         </div>
         <div className="lg:col-span-1">
           <div>

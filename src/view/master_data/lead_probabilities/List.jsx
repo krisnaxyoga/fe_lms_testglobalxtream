@@ -1,7 +1,5 @@
 // Import useState and useRef hooks from React
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import Layout from "../../../Layout/Index";
 import Api from "../../../api/Index";
 
 function List() {
@@ -122,15 +120,17 @@ function List() {
                   <div className="truncate">{probabilitie.name}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  
                   <button
-                    className="text-indigo-600 hover:text-indigo-900 mx-3"
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold w-30 p-1 rounded-md mx-3"
                     onClick={() => handleEditButtonClick(probabilitie)}
                   >
                     Edit
                   </button>
                   <button
-                     className="text-red-600 hover:text-indigo-900"
-                   onClick={()=>handleDeleteButtonClick(probabilitie)}>
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold w-30 p-1 rounded-md"
+                    onClick={() => handleDeleteButtonClick(probabilitie)}
+                  >
                     delete
                   </button>
                 </td>
@@ -155,7 +155,7 @@ function List() {
               &#8203;
             </span>
             <div
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+              className="inline-block align-bottom p-5 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-headline"
@@ -167,9 +167,9 @@ function List() {
                 {selectedProbabilities ? "Edit Lead probabilitie" : "Add New Lead probabilitie"}
               </h3>
               <form onSubmit={handleFormSubmit}>
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div>
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <div>
                         <label
                           htmlFor="name"
@@ -186,8 +186,8 @@ function List() {
                             defaultValue={
                               selectedProbabilities ? selectedProbabilities.name : ""
                             }
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                          />
+                            className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            />
                         </div>
                       </div>
                     </div>

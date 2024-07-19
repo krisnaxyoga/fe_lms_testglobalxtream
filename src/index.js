@@ -1,18 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "./index.css";
+import { ThemeProvider, defaultTheme } from "@material-tailwind/react"; // Sesuaikan dengan impor tema yang sesuai
 
-//import custom CSS
-import './index.css';
-
-//BrowserRouter dari react router
-import { BrowserRouter } from 'react-router-dom';
+// Import BrowserRouter dari react-router-dom
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={defaultTheme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

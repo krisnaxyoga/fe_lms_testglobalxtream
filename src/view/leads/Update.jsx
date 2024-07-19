@@ -250,6 +250,8 @@ export default function Update() {
     fetchProbability();
     fetchType();
   }, []);
+
+  console.log(formData);
   return (
     <Layout>
       <div className="container">
@@ -263,9 +265,9 @@ export default function Update() {
               name="branch_office"
               value={formData.branch_office}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
-              <option value="">- Branch Office</option>
+              <option value="">- Branch Office -</option>
               <option value="GlobalXtreme Bali">GlobalXtreme Bali</option>
               <option value="GlobalXtreme Malang">GlobalXtreme Malang</option>
               <option value="GlobalXtreme Jakarta">GlobalXtreme Jakarta</option>
@@ -284,7 +286,7 @@ export default function Update() {
               name="fullname"
               value={formData.fullname}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="block">
@@ -294,7 +296,7 @@ export default function Update() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="block">
@@ -304,7 +306,7 @@ export default function Update() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="block">
@@ -314,7 +316,7 @@ export default function Update() {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <label className="block">
@@ -323,7 +325,7 @@ export default function Update() {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">- Status</option>
               {status.map(item =>
@@ -339,11 +341,11 @@ export default function Update() {
               name="probability"
               value={formData.probability}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">- select -</option>
               {probability.map(item =>
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id} selected={formData.probability === item.id}>
                   {item.name}
                 </option>
               )}
@@ -353,13 +355,13 @@ export default function Update() {
             Lead Type:
             <select
               name="lead_type"
-              value={formData.lead_type}
+              value={formData.lead_type.id}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
-              <option value="">- Status</option>
+              <option value="">- select -</option>
               {leadtype.map(item =>
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id} selected={formData.lead_type.id === item.id}>
                   {item.name}
                 </option>
               )}
@@ -369,13 +371,13 @@ export default function Update() {
             Lead Channel:
             <select
               name="lead_channel"
-              value={formData.lead_channel}
+              value={formData.lead_channel.id}
               onChange={handleChannelChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">- channel</option>
               {channel.map(item =>
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id} selected={formData.lead_channel.id === item.id}>
                   {item.name}
                 </option>
               )}
@@ -386,14 +388,14 @@ export default function Update() {
             Lead Media:
             <select
               name="lead_media"
-              value={formData.lead_media}
+              value={formData.lead_media.id}
               onChange={handleMediaChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">- channel -</option>
               {filteredMedia.length > 0 &&
                 filteredMedia.map(item =>
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.id} selected={formData.lead_media.id === item.id}>
                     {item.name}
                   </option>
                 )}
@@ -403,14 +405,14 @@ export default function Update() {
             Lead Source:
             <select
               name="lead_source"
-              value={formData.lead_source}
+              value={formData.lead_source.id}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">- channel -</option>
               {filteredSources.length > 0 &&
                 filteredSources.map(item =>
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.id} selected={formData.lead_source.id === item.id}>
                     {item.name}
                   </option>
                 )}
@@ -423,10 +425,10 @@ export default function Update() {
               name="general_notes"
               value={formData.general_notes}
               onChange={handleChange}
-              className="input-field"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
-          <button type="submit" className="button">
+          <button type="submit" className="button bg-sky-500 p-4 rounded-md">
             Submit
           </button>
         </form>
