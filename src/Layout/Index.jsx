@@ -111,61 +111,6 @@ function Index({ children }) {
                   MASTER DATA
                 </NavLink>
               </li>
-              <li className={`${
-                  isActivePath("/") ? "text-blue-500" : "text-grey-500"
-                }`}>
-                <NavLink
-                  className="block px-4 py-2 text-sm hover:bg-gray-700"
-                  to="/lead-probabilities"
-                  activeClassName="text-blue-500"
-                >
-                  Lead Probabilities
-                </NavLink>
-              </li>
-              <li className={`${
-                  isActivePath("/") ? "text-blue-500" : "text-grey-500"
-                }`}>
-                <NavLink
-                  className="block px-4 py-2 text-sm hover:bg-gray-700"
-                  to="/lead-types"
-                  activeClassName="text-blue-500"
-                >
-                  Lead Types
-                </NavLink>
-              </li>
-              <li className={`${
-                  isActivePath("/") ? "text-blue-500" : "text-grey-500"
-                }`}>
-                <NavLink
-                  className="block px-4 py-2 text-sm hover:bg-gray-700"
-                  to="/lead_channels"
-                  activeClassName="text-blue-500"
-                >
-                  Lead Channels
-                </NavLink>
-              </li>
-              <li className={`${
-                  isActivePath("/") ? "text-blue-500" : "text-grey-500"
-                }`}>
-                <NavLink
-                  className="block px-4 py-2 text-sm hover:bg-gray-700"
-                  to="/lead-medias"
-                  activeClassName="text-blue-500"
-                >
-                  Lead Medias
-                </NavLink>
-              </li>
-              <li className={`${
-                  isActivePath("/") ? "text-blue-500" : "text-grey-500"
-                }`}>
-                <NavLink
-                  className="block px-4 py-2 text-sm hover:bg-gray-700"
-                  to="/lead-sources"
-                  activeClassName="text-blue-500"
-                >
-                  Lead Sources
-                </NavLink>
-              </li>
 
              
             </ul>
