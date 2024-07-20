@@ -44,7 +44,7 @@ function Login() {
         formData.append('password', password);
 
         //send data to server
-        await axios.post('http://localhost:8000/api/auth/login', formData)
+        await axios.post('https://demo.whiskypeak.com/api/auth/login', formData)
         .then((response) => {
 
             //set token on localStorage
