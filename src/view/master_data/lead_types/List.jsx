@@ -6,9 +6,11 @@ function List() {
   const [leadTypes, setleadTypes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [SelectType, setSelectType] = useState(null);
+  const [loading, setLoading] = useState(false);
   const nameRef = useRef();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const config = {
@@ -28,6 +30,7 @@ function List() {
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
     }
+    setLoading(false);
   };
 
   const handleAddButtonClick = () => {
@@ -111,6 +114,11 @@ function List() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
+          {loading ? <>
+              <td colSpan="2" className="px-6 py-4 whitespace-nowrap text-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
+              </td>
+            </> :<>
             {leadTypes.map((type) => (
               <tr key={type.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -130,7 +138,8 @@ function List() {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))}</>
+          }
           </tbody>
         </table>
       </div>

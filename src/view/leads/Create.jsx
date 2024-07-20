@@ -11,7 +11,7 @@ export default function Create() {
     email: "",
     phone: "",
     address: "",
-    status: "",
+    status: 1,
     probability: "",
     lead_type: "",
     lead_channel: "",
@@ -110,25 +110,6 @@ export default function Create() {
     }
   };
 
-  const [status, setstatuse] = useState([]);
-  const fetchstatuse = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_statuses", config);
-      setstatuse(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-
   const [probability, setProbability] = useState([]);
   const fetchProbability = async () => {
     try {
@@ -205,7 +186,6 @@ export default function Create() {
   };
   useEffect(() => {
     fetchChannel();
-    fetchstatuse();
     fetchMedia();
     fetchSources();
     fetchProbability();
@@ -313,28 +293,7 @@ export default function Create() {
             </div>
             <div>
               <label
-                for="visitors"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Status
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option value="">- select -</option>
-                {status.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label
-                for="visitors"
+                for="probability"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Probability
@@ -356,7 +315,7 @@ export default function Create() {
             </div>
             <div>
               <label
-                for="visitors"
+                for="lead_type"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Lead Type
@@ -378,7 +337,7 @@ export default function Create() {
             </div>
             <div>
               <label
-                for="visitors"
+                for="lead_channel"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Lead Channel
@@ -400,7 +359,7 @@ export default function Create() {
             </div>
             <div>
               <label
-                for="visitors"
+                for="lead_media"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Lead media
@@ -424,7 +383,7 @@ export default function Create() {
             </div>
             <div>
               <label
-                for="visitors"
+                for="lead source"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Lead source

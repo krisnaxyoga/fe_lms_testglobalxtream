@@ -5,6 +5,7 @@ import Api from "../../../api/Index";
 function List() {
   const [leadSources, setleadSources] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [SelectSource, setSelectSource] = useState(null);
   
   const [media, setMedia] = useState([]);
@@ -31,6 +32,7 @@ function List() {
     }
   };
   const fetchData = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const config = {
@@ -55,8 +57,9 @@ function List() {
         console.error("Terjadi kesalahan:", error);
       }
     }
+    setLoading(false);
   };
-console.log(leadSources);
+
   const handleAddButtonClick = () => {
     setShowModal(true);
   };
@@ -161,6 +164,11 @@ console.log(leadSources);
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
+          {loading ? <>
+              <td colSpan="2" className="px-6 py-4 whitespace-nowrap text-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
+              </td>
+            </> :<>
             {leadSources.map((sourches) => (
               <tr key={sourches.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -186,6 +194,8 @@ console.log(leadSources);
                 </td>
               </tr>
             ))}
+            </>
+            }
           </tbody>
         </table>
       </div>

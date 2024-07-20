@@ -7,8 +7,10 @@ function List() {
   const [showModal, setShowModal] = useState(false);
   const [selectedStatuses, setSelectedStatuses] = useState(null);
   const nameRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const config = {
@@ -28,6 +30,7 @@ function List() {
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
     }
+    setLoading(false);
   };
 
   const handleAddButtonClick = () => {
@@ -113,6 +116,11 @@ function List() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
+          {loading ? <>
+              <td colSpan="2" className="px-6 py-4 whitespace-nowrap text-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
+              </td>
+            </> :<>
             {leadStatuses.map((statuses) => (
               <tr key={statuses.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -134,6 +142,8 @@ function List() {
                 </td>
               </tr>
             ))}
+            </>
+            }
           </tbody>
         </table>
       </div>
