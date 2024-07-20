@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Api from "../api/Index";
 
@@ -13,6 +13,28 @@ function Index({ children }) {
   const isActivePath = (path) => {
     return location.pathname === path;
   };
+
+  useEffect(()=>{
+    regreshToken();
+  })
+  const regreshToken = async() =>{
+    try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const response = await Api('/api/auth/refresh',config);
+      localStorage.setItem('token', response.data.access_token);
+
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      } else {
+        console.error("Terjadi kesalahan:", error);
+      }
+    }
+  }
 
   const logout = async () => {
     setLoading(true);
@@ -93,7 +115,9 @@ function Index({ children }) {
             <li>
               <NavLink
                 to="/"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                  isActivePath("/dashboard") ? "bg-gray-200 dark:bg-gray-700" : ""
+                }`}
               >
                 <svg
                   className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -111,7 +135,7 @@ function Index({ children }) {
             <li>
               <NavLink
                 to="/leads"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${isActivePath("/leads") ? "bg-gray-200 dark:bg-gray-700" : ""}`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -128,7 +152,7 @@ function Index({ children }) {
             <li>
               <NavLink
                 to="/master_data"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${isActivePath("/master_data") ? "bg-gray-200 dark:bg-gray-700" : ""}`}
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +209,8 @@ function Index({ children }) {
               className="flex justify-center my-4 opacity-75"
               style={{ transition: "opacity 0.1s ease-in-out" }}
             >
-              <p className="text-gray-500">Loading...</p>
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
+                     
             </div>
           ) : (
             <div>

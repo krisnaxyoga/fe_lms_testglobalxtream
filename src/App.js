@@ -11,6 +11,7 @@ import LeadList from "./View/leads/List";
 import LeadCreate from "./View/leads/Create";
 import MasterData from "./View/master_data/MasterData";
 import LeadUpdate from "./View/leads/Update";
+import LeadDetail from "./View/leads/Detail";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/leads" element={<LeadList />} />
           <Route path="/leads-create" element={<LeadCreate />} />
           <Route path="/leads-update/:id" element={<LeadUpdate />} />
+          <Route path="/leads-detail/:id" element={<LeadDetail />} />
 
           <Route path="/master_data" element={<MasterData />} />
         </Routes>
