@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../Layout/Index";
 
 import Api from "../../api/Index";
 
 export default function Update() {
-    
   const [leads, setLeads] = useState([]);
   const [formData, setFormData] = useState({
     branch_office: "",
@@ -22,7 +21,11 @@ export default function Update() {
     general_notes: ""
   });
 
-    const { id } = useParams();
+  const { id } = useParams();
+
+  const [isMediadisable, setMediadisable] = useState(false);
+
+  const [isSourcedisable, setSourcedisable] = useState(false);
   const [channel, setChannel] = useState([]);
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,6 +42,7 @@ export default function Update() {
       item => item.channel_id === Number(channelId)
     );
     setFilteredMedia(mediaFiltered);
+    setMediadisable(true);
 
     // Reset lead_media saat channel berubah
     setFormData(prevState => ({ ...prevState, lead_media: "" }));
@@ -54,6 +58,7 @@ export default function Update() {
       item => item.media_id === Number(mediaId)
     );
     setFilteredSources(sourceFiltered);
+    setSourcedisable(true);
 
     setFormData(prevState => ({ ...prevState, lead_source: "" }));
   };
@@ -160,7 +165,6 @@ export default function Update() {
       };
       const response = await Api.get("/api/lead_types", config);
       setLeadtype(response.data.data);
-
     } catch (error) {
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
@@ -183,7 +187,7 @@ export default function Update() {
       let response;
 
       // Add new medias
-      response = await Api.put("/api/leads", formData, config);
+      response = await Api.put(`/api/leads/${id}`, formData, config);
 
       if (response.status === 201 || response.status === 200) {
         setFormData({
@@ -215,7 +219,8 @@ export default function Update() {
       };
       const response = await Api.get(`/api/leads/${id}`, config);
       setLeads(response.data.data);
-      if(response.data.data){
+      console.log(response.data.data);
+      if (response.data.data) {
         setFormData({
           branch_office: response.data.data.branch_office,
           fullname: response.data.data.fullname,
@@ -231,7 +236,6 @@ export default function Update() {
           general_notes: response.data.data.general_notes
         });
       }
-      
     } catch (error) {
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
@@ -255,180 +259,290 @@ export default function Update() {
   return (
     <Layout>
       <div className="container">
-        <form
-          onSubmit={handleFormSubmit}
-          className="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-        >
-          <label className="block">
-            Branch Office:
-            <select
-              name="branch_office"
-              value={formData.branch_office}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- Branch Office -</option>
-              <option value="GlobalXtreme Bali">GlobalXtreme Bali</option>
-              <option value="GlobalXtreme Malang">GlobalXtreme Malang</option>
-              <option value="GlobalXtreme Jakarta">GlobalXtreme Jakarta</option>
-              <option value="GlobalXtreme Balikpapan">
-                GlobalXtreme Balikpapan
-              </option>
-              <option value="GlobalXtreme Samarinda">
-                GlobalXtreme Samarinda
-              </option>
-            </select>
-          </label>
-          <label className="block">
-            Fullname:
-            <input
-              type="text"
-              name="fullname"
-              value={formData.fullname}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="block">
-            Email:
-            <input
-              type="text"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="block">
-            Phone:
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="block">
-            Address:
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <label className="block">
-            Status:
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- Status</option>
-              {status.map(item =>
-                <option key={item.id} value={item.id}>
-                  {item.name}
+        <form onSubmit={handleFormSubmit}>
+          <div className="grid gap-6 mb-6 md:grid-cols-2">
+            <div>
+              <label
+                for="branch_office"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Branch Office
+              </label>
+              <select
+                name="branch_office"
+                value={formData.branch_office}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="">- select -</option>
+                <option value="GlobalXtreme Bali">GlobalXtreme Bali</option>
+                <option value="GlobalXtreme Malang">GlobalXtreme Malang</option>
+                <option value="GlobalXtreme Jakarta">
+                  GlobalXtreme Jakarta
                 </option>
-              )}
-            </select>
-          </label>
-          <label className="block">
-            Probability:
-            <select
-              name="probability"
-              value={formData.probability}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- select -</option>
-              {probability.map(item =>
-                <option key={item.id} value={item.id} selected={formData.probability === item.id}>
-                  {item.name}
+                <option value="GlobalXtreme Balikpapan">
+                  GlobalXtreme Balikpapan
                 </option>
-              )}
-            </select>
-          </label>
-          <label className="block">
-            Lead Type:
-            <select
-              name="lead_type"
-              value={formData.lead_type.id}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- select -</option>
-              {leadtype.map(item =>
-                <option key={item.id} value={item.id} selected={formData.lead_type.id === item.id}>
-                  {item.name}
+                <option value="GlobalXtreme Samarinda">
+                  GlobalXtreme Samarinda
                 </option>
-              )}
-            </select>
-          </label>
-          <label className="block">
-            Lead Channel:
-            <select
-              name="lead_channel"
-              value={formData.lead_channel.id}
-              onChange={handleChannelChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- channel</option>
-              {channel.map(item =>
-                <option key={item.id} value={item.id} selected={formData.lead_channel.id === item.id}>
-                  {item.name}
-                </option>
-              )}
-            </select>
-          </label>
+              </select>
+            </div>
+            <div>
+              <label
+                for="full_name"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Full name
+              </label>
+              <input
+                type="text"
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Email
+              </label>
+              <input
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="email@mail.com"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="phone"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Phone number
+              </label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="123-45-678"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="address"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Your address
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                rows="4"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your address here..."
+              />
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Status
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="">- select -</option>
+                {status.map(item =>
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                )}
+              </select>
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Probability
+              </label>
 
-          <label className="block">
-            Lead Media:
-            <select
-              name="lead_media"
-              value={formData.lead_media.id}
-              onChange={handleMediaChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- channel -</option>
-              {filteredMedia.length > 0 &&
-                filteredMedia.map(item =>
-                  <option key={item.id} value={item.id} selected={formData.lead_media.id === item.id}>
+              <select
+                name="probability"
+                value={formData.probability}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="">- select -</option>
+                {probability.map(item =>
+                  <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
                 )}
-            </select>
-          </label>
-          <label className="block">
-            Lead Source:
-            <select
-              name="lead_source"
-              value={formData.lead_source.id}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option value="">- channel -</option>
-              {filteredSources.length > 0 &&
-                filteredSources.map(item =>
-                  <option key={item.id} value={item.id} selected={formData.lead_source.id === item.id}>
+              </select>
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Lead Type
+              </label>
+
+              <select
+                name="lead_type"
+                defaultValue={
+                  formData.lead_type}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="">- select -</option>
+                {leadtype.map(item =>
+                  <option key={item.id} value={item.id} selected={leads.lead_type.id == item.id}>
                     {item.name}
                   </option>
                 )}
-            </select>
-          </label>
-          <label className="block">
-            General Notes:
-            <input
-              type="text"
-              name="general_notes"
-              value={formData.general_notes}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </label>
-          <button type="submit" className="button bg-sky-500 p-4 rounded-md">
+              </select>
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Lead Channel
+              </label>
+
+              <select
+                name="lead_channel"
+                defaultValue={
+                  formData.lead_channel
+                    ? leads.lead_channel.id
+                    : formData.lead_channel.id
+                }
+                onChange={handleChannelChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="">- select -</option>
+                {channel.map(item =>
+                  <option
+                    key={item.id}
+                    value={item.id}
+                    selected={leads.lead_channel.id === item.id}
+                  >
+                    {item.name}
+                  </option>
+                )}
+              </select>
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Lead media
+              </label>
+
+              <select
+                name="lead_media"
+                value={
+                  formData.lead_media
+                }
+                onChange={handleMediaChange}
+                disabled={!isMediadisable}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                {!isMediadisable ? (
+                  <>
+                  <option value="">{formData.lead_media.name}</option>
+                  </>
+                ):(
+                  <>
+                  <option value="">- select -</option>
+                  </>
+                )}
+                      {filteredMedia.map(item =>
+                        <option
+                          key={item.id}
+                          value={item.id}
+                          selected={leads.lead_media.id === item.id}
+                        >
+                          {item.name}
+                        </option>
+                      )}
+              </select>
+            </div>
+            <div>
+              <label
+                for="visitors"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Lead source
+              </label>
+
+              <select
+                name="lead_source"
+                value={formData.lead_source}
+                onChange={handleChange}
+                disabled={!isSourcedisable}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                {!isSourcedisable ? (
+                  <>
+                  <option value="">{formData.lead_source.name}</option>
+                  </>
+                ):(
+                  <>
+                  <option value="">- select -</option>
+                  </>
+                )}
+                {filteredSources.length > 0 &&
+                  filteredSources.map(item =>
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  )}
+              </select>
+            </div>
+            <div>
+              <label
+                for="address"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                General Note
+              </label>
+              <textarea
+                id="general_notes"
+                name="general_notes"
+                value={formData.general_notes}
+                onChange={handleChange}
+                rows="4"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your Note here..."
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
             Submit
           </button>
         </form>

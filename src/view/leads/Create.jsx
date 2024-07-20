@@ -229,7 +229,7 @@ export default function Create() {
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="">- Branch Office</option>
+                <option value="">- select -</option>
                 <option value="GlobalXtreme Bali">GlobalXtreme Bali</option>
                 <option value="GlobalXtreme Malang">GlobalXtreme Malang</option>
                 <option value="GlobalXtreme Jakarta">
@@ -368,7 +368,7 @@ export default function Create() {
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="">- Status</option>
+                <option value="">- select -</option>
                 {leadtype.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
@@ -390,7 +390,7 @@ export default function Create() {
                 onChange={handleChannelChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="">- channel</option>
+                <option value="">- select -</option>
                 {channel.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
@@ -410,9 +410,10 @@ export default function Create() {
                 name="lead_media"
                 value={formData.lead_media}
                 onChange={handleMediaChange}
+                disabled={!formData.lead_channel}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="">- channel -</option>
+                <option value="">- select -</option>
                 {filteredMedia.length > 0 &&
                   filteredMedia.map((item) => (
                     <option key={item.id} value={item.id}>
@@ -433,9 +434,10 @@ export default function Create() {
                 name="lead_source"
                 value={formData.lead_source}
                 onChange={handleChange}
+                disabled={!formData.lead_media}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="">- channel -</option>
+                <option value="">- select -</option>
                 {filteredSources.length > 0 &&
                   filteredSources.map((item) => (
                     <option key={item.id} value={item.id}>
