@@ -8,6 +8,8 @@ function Login() {
     //define state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState(null);
+    const [error, setError] = useState(null);
 
     //define state validation
     const [validation, setValidation] = useState([]);
@@ -66,51 +68,114 @@ function Login() {
     };
 
     return (
-        <div className={`flex items-center justify-center h-screen bg-gray-100 ${loading && 'opacity-75'}`}>
-            <div className="w-96">
-                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <h4 className="text-black text-2xl font-bold mb-4">HALAMAN LOGIN</h4>
-                    <hr/>
-                    {
-                        validation.message && (
-                            <div className="p-2 my-2 bg-red-200 shadow-md rounded">
-                                <p className='text-slate-500'>{validation.message}</p>
-                                
+        <>
+        <section className="vh-100">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-12 col-md-12 col-lg-6 text-black">
+                        <div className="px-5 ms-xl-4 mt-5 text-start">
+                            <div className='mb-5'>
+                            <i className="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style={{ color: '#709085' }}></i>
+                            <img
+                                onError={(e) => { e.target.onerror = null; e.target.src = 'https://semantic-ui.com/images/wireframe/white-image.png'; }}
+                                style={{ width: '141px'}}
+                                src="/logo.png"
+                                alt="Logo"
+                            />
                             </div>
-                        )
-                    }
-                    <form onSubmit={loginHandler}>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">ALAMAT EMAIL</label>
-                            <input type="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Masukkan Alamat Email"/>
-                            {
+                           
+                             <h1 className="h3 mb-3 font-weight-normal">Welcome to <span className='fw-bold'>GX APP</span></h1>
+                             <p className="text-muted">Sign in to your account below</p>
+                        </div>
+                        {validation?.message && (
+                            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                                {validation.message}
+                                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        )}
+                       
+                        <div className="align-items-center px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+                            <form onSubmit={loginHandler}>
+                                <h3 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>Log in</h3>
+                                <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="form2Example18">Email address</label>
+                                   
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        id="form2Example18"
+                                        className={`form-control form-control-lg ${error ? 'is-invalid' : ''}`}
+                                    />
+                                    
+                                    {
                                 validation.email && (
-                                    <div className="text-red-500 p-2 my-2">
+                                    <div className="invalid-feedback">
                                         {validation.email[0]}
                                     </div>
                                 )
                             }
-                        </div>
-                        <div className="mb-6">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">PASSWORD</label>
-                            <input type="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan Password"/>
-                            {
+                                </div>
+                                <div className="form-outline mb-4">
+                                <div className="d-flex justify-content-between">
+                                        <label className="form-label" htmlFor="form2Example28">Password</label>
+                                  </div>
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        id="form2Example28"
+                                        className={`form-control form-control-lg ${error ? 'is-invalid' : ''}`}
+                                    />
+                                    
+                                    {
                                 validation.password && (
-                                    <div className="text-red-500 p-2 my-2">
+                                    <div className="invalid-feedback">
                                         {validation.password[0]}
                                     </div>
                                 )
                             }
+                                </div>
+                                <div className="form-check mb-3">
+                                    <input className="form-check-input" type="checkbox" value="" id="keepSignedIn" />
+                                    <label className="form-check-label" htmlFor="keepSignedIn">
+                                        Keep me signed in
+                                    </label>
+                                </div>
+                                <div className="d-flex justify-content-between pt-1 mb-4">
+                                    <button className="btn btn-warning btn-lg btn-block" disabled={loading} type="submit"> {loading ? 'LOADING...' : 'LOGIN'}</button>
+                                    
+                                </div>
+                            </form>
+                            <div className='d-flex align-items-end justify-center'>
+                            <p className="mt-5 mb-3 text-muted text-center" style={{ fontSize:'12px' }}>
+                                © 2023 GX ONE - Committed to better quality Design & Development By GlobalXtreme
+                            </p>
+                            </div>
+                           
                         </div>
-                        <div className="flex items-center justify-between">
-                            <button type="submit" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${loading && 'opacity-50 cursor-not-allowed'}`} disabled={loading}>
-                                {loading ? 'LOADING...' : 'LOGIN'}
-                            </button>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-6 px-0 d-none d-sm-none d-lg-block d-xl-block d-md-none">
+                    <div className="card m-3 text-bg-dark border-0 rounded" style={{backgroundColor: "linear-gradient(360deg, #221C00 14.45%, rgba(0, 0, 0, 0) 51.27%)"}}>
+                    
+                        <img src="/background-login.png" alt="Login image" className="login-image rounded-13px" />
+                        <div className="card-img-overlay d-flex align-items-end overlay rounded-13px">
+                            <div style={{paddingRight: "20px",paddingLeft: "20px", paddingBottom:"132px", width: "100%"}}>
+                            <p className="text-white" style={{ fontSize:'16px' }}>- Gordon B. Hinckley</p>
+                                <p className="text-white fw-bold" style={{ fontSize:"34px" }}>
+                                    "Without hard work, noting grows but weeds."
+                                </p>
+                                
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+         
+        </>
+       
     )
 
 }

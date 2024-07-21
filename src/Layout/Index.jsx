@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Api from "../api/Index";
+import Sidebar from "../components/Sidebar";
 
 function Index({ children }) {
   const location = useLocation();
@@ -51,10 +52,23 @@ function Index({ children }) {
     }
     setLoading(false);
   };
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    setShow(!show);
+};
+
+const [isCollapsed, setIsCollapsed] = useState(false);
+
+const toggleSidebar = () => {
+  setIsCollapsed(!isCollapsed);
+};
+
+
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -65,7 +79,7 @@ function Index({ children }) {
         <span className="sr-only">Open sidebar</span>
         <svg
           className="w-6 h-6"
-          aria-hidden="true"
+          aria-hidden= "true"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -91,11 +105,11 @@ function Index({ children }) {
             type="button"
             data-drawer-hide="drawer-navigation"
             aria-controls="drawer-navigation"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <svg
               aria-hidden="true"
-              class="w-5 h-5"
+              className="w-5 h-5"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +120,7 @@ function Index({ children }) {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="sr-only">Close menu</span>
+            <span className="sr-only">Close menu</span>
           </button>
         </div>
 
@@ -218,7 +232,12 @@ function Index({ children }) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
+<Sidebar/>
+<main id="main" class="main">
+  {children}
+</main>
+
     </>
   );
 }
