@@ -27,7 +27,7 @@ function App() {
           <Route path="/leads-update/:id" element={<LeadUpdate />} />
           <Route path="/leads-detail/:id" element={<LeadDetail />} />
 
-          <Route path="/master_data" element={<MasterData />} />
+          <Route path="/leads-setting" element={<MasterData />} />
         </Routes>
       </div>
     </>
