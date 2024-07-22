@@ -5,7 +5,7 @@ import Api from "../../api/Index";
 import { FaPlus } from "react-icons/fa6";
 
 import SingleInputDateRange from "../../components/Daterange";
-import { formToJSON } from "axios";
+import { FiSearch } from "react-icons/fi";
 
 function List() {
   const navigate = useNavigate();
@@ -129,30 +129,33 @@ function List() {
               </div>
               <div className="card-body">
                 <div className="row">
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <div className="form-group">
+                      <label htmlFor="" style={{ fontSize:'12px' }}>Search Text</label>
                     <input
                         type="text"
                         name="searchText"
                         placeholder="Search by Name or Number"
                         value={filters.searchText}
                         onChange={handleFilterChange}
-                        className="form-control"
+                        className="form-control form-control-custom"
                       />
                     </div>
                     </div>
                     <div className="col-lg-3">
                     <div className="form-group">
+                    <label htmlFor="" style={{ fontSize:'12px' }}>Date</label>
                     <SingleInputDateRange onChange={handleDateRangeChange} />
                       </div>
                     </div>
                     <div className="col-lg-3">
                     <div className="form-group">
+                    <label htmlFor="" style={{ fontSize:'12px' }}>Status</label>
                     <select
                         name="status"
                         value={filters.status}
                         onChange={handleFilterChange}
-                        className="form-control"
+                        className="form-control form-control-custom"
                       >
                         <option value="">Select Status</option>
                         {status.map((item) => (
@@ -163,13 +166,14 @@ function List() {
                       </select>
                     </div>
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                     <div className="form-group">
+                    <label htmlFor="" style={{ fontSize:'12px' }}>Branch Office</label>
                     <select
                         name="branchOffice"
                         value={filters.branchOffice}
                         onChange={handleFilterChange}
-                        className="form-control"
+                        className="form-control form-control-custom"
                       >
                         <option value="">Select Branch Office</option>
                         <option value="GlobalXtreme Bali">
@@ -190,10 +194,22 @@ function List() {
                       </select>
                       </div>
                     </div>
+                    <div className="col-lg-2">
+                    <button
+                   type="button"
+                    className="btn btn-globalxtream d-flex my-4" onClick={()=>fetchleade()}
+                  >
+                    <p className="m-0 fw-bold" style={{ fontSize: "12px" }}>
+                      Search{" "}
+                    </p>
+                    <FiSearch style={{width:'19px',marginLeft: "4px"}}/>
+                    
+                  </button>
+                    </div>
                 </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="bg-grey">
                       <tr>
                         <th
                           scope="col"

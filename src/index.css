@@ -1224,7 +1224,39 @@
   .error-404 .btn:hover {
     background: #3e4f6f;
   }
-  
+  /* CustomDateRangePicker.css */
+.custom-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding-right: 4px;
+  padding-left: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+.bg-grey{
+  background: #f1f1f1;
+}
+.custom-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  color: #ACADC1;
+}
+.form-control-custom {
+  width: 100%;
+  color: #ACADC1;
+  font-size: 14px;
+}
+
+
+.calendar-icon {
+  margin-right: 6px;
+  color: #ced4da;
+}
+
   @media (min-width: 992px) {
     .error-404 img {
       max-width: 50%;
