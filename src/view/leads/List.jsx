@@ -6,14 +6,17 @@ import { FaPlus } from "react-icons/fa6";
 
 import SingleInputDateRange from "../../components/Daterange";
 import { FiSearch } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 
 function List() {
   const navigate = useNavigate();
 
+  const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleNavigate = () => {
-    navigate("/leads-create");
-  };
+  const [selectedLead, setSelectedLead] = useState(null);
+ 
 
   const [leads, setLeads] = useState([]);
   const [filters, setFilters] = useState({
@@ -48,7 +51,10 @@ function List() {
     }
     setLoading(false);
   };
-
+  const toggleDropdown = (lead) => {
+    setSelectedLead(lead);
+    setShowDropdown(!showDropdown);
+  };
   const handleDeleteButtonClick = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -95,11 +101,11 @@ function List() {
   const handleDateRangeChange = (selectedRange) => {
     console.log(selectedRange);
     setFilters({
-        ...filters,
-        dateRange: selectedRange,
+      ...filters,
+      dateRange: selectedRange,
     });
-};
-// console.log(filters);
+  };
+  // console.log(filters);
 
   return (
     <Layout>
@@ -122,8 +128,7 @@ function List() {
                     <p className="m-0 fw-bold" style={{ fontSize: "12px" }}>
                       Add New{" "}
                     </p>
-                    <FaPlus style={{width:'19px',marginLeft: "4px"}}/>
-                    
+                    <FaPlus style={{ width: "19px", marginLeft: "4px" }} />
                   </Link>
                 </div>
               </div>
@@ -131,27 +136,33 @@ function List() {
                 <div className="row">
                   <div className="col-lg-2">
                     <div className="form-group">
-                      <label htmlFor="" style={{ fontSize:'12px' }}>Search Text</label>
-                    <input
+                      <label htmlFor="" style={{ fontSize: "12px" }}>
+                        Search Text
+                      </label>
+                      <input
                         type="text"
                         name="searchText"
-                        placeholder="Search by Name or Number"
+                        placeholder="Search by Text"
                         value={filters.searchText}
                         onChange={handleFilterChange}
                         className="form-control form-control-custom"
                       />
                     </div>
-                    </div>
-                    <div className="col-lg-3">
+                  </div>
+                  <div className="col-lg-3">
                     <div className="form-group">
-                    <label htmlFor="" style={{ fontSize:'12px' }}>Date</label>
-                    <SingleInputDateRange onChange={handleDateRangeChange} />
-                      </div>
+                      <label htmlFor="" style={{ fontSize: "12px" }}>
+                        Date
+                      </label>
+                      <SingleInputDateRange onChange={handleDateRangeChange} />
                     </div>
-                    <div className="col-lg-3">
+                  </div>
+                  <div className="col-lg-3">
                     <div className="form-group">
-                    <label htmlFor="" style={{ fontSize:'12px' }}>Status</label>
-                    <select
+                      <label htmlFor="" style={{ fontSize: "12px" }}>
+                        Status
+                      </label>
+                      <select
                         name="status"
                         value={filters.status}
                         onChange={handleFilterChange}
@@ -165,11 +176,13 @@ function List() {
                         ))}
                       </select>
                     </div>
-                    </div>
-                    <div className="col-lg-2">
+                  </div>
+                  <div className="col-lg-2">
                     <div className="form-group">
-                    <label htmlFor="" style={{ fontSize:'12px' }}>Branch Office</label>
-                    <select
+                      <label htmlFor="" style={{ fontSize: "12px" }}>
+                        Select Office
+                      </label>
+                      <select
                         name="branchOffice"
                         value={filters.branchOffice}
                         onChange={handleFilterChange}
@@ -192,184 +205,226 @@ function List() {
                           GlobalXtreme Samarinda
                         </option>
                       </select>
-                      </div>
                     </div>
-                    <div className="col-lg-2">
+                  </div>
+                  <div className="col-lg-2">
                     <button
-                   type="button"
-                    className="btn btn-globalxtream d-flex my-4" onClick={()=>fetchleade()}
-                  >
-                    <p className="m-0 fw-bold" style={{ fontSize: "12px" }}>
-                      Search{" "}
-                    </p>
-                    <FiSearch style={{width:'19px',marginLeft: "4px"}}/>
-                    
-                  </button>
-                    </div>
+                      type="button"
+                      className="btn btn-globalxtream d-flex my-4"
+                      onClick={() => fetchleade()}
+                    >
+                      <p className="m-0 fw-bold" style={{ fontSize: "12px" }}>
+                        Search{" "}
+                      </p>
+                      <FiSearch style={{ width: "19px", marginLeft: "4px" }} />
+                    </button>
+                  </div>
                 </div>
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="bg-grey">
+                <div className="relative overflow-x-auto">
+                  <div
+                    className="d-flex bg-grey py-3 px-3 mb-2 justify-content-between"
+                    style={{ width: "1500px" }}
+                  >
+                    <div className="col-lg">
+                      <p className="m-0 fs-6 fw-semibold text">#Lead</p>
+                    </div>
+                    <div className="col-lg">
+                      <p className="m-0 fs-6 fw-semibold text">
+                        Primary Contact
+                      </p>
+                    </div>
+                    <div className="col-lg">
+                      <p className="m-0 fs-6 fw-semibold text">Info</p>
+                    </div>
+                    <div className="col-lg">
+                      <p className="m-0 fs-6 fw-semibold text">Info Source</p>
+                    </div>
+                    <div className="col-lg">
+                      <p className="m-0 fs-6 fw-semibold text">Assigned To</p>
+                    </div>
+                  </div>
+                  {loading ? (
+                    <>
                       <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Branch Office Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Address
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Number
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Primary Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Status
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Probability
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Lead Channel, Media , Source
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Created At
-                        </th>
+                        <td colSpan={6} className="text-center p-5">
+                          <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {loading ? (
+                    </>
+                  ) : (
+                    <>
+                      {leads.map((lead) => (
                         <>
-                          <tr>
-                            <td colSpan={6} className="text-center p-5">
-                              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
-                            </td>
-                          </tr>
-                        </>
-                      ) : (
-                        <>
-                          {leads.map((lead) => (
-                            <tr key={lead.id}>
-                              <td className="px-6 py-4">
-                                <Link
-                                  to={`/leads-detail/${lead.id}`}
-                                  className="mt-3 w-full inline-flex justify-center rounded-2xl border shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="size-4"
-                                  >
-                                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
-                                </Link>
-                                <Link
-                                  className="mt-3 w-full inline-flex justify-center rounded-2xl border shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                  to={`/leads-update/${lead.id}`}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="size-4"
-                                  >
-                                    <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
-                                    <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
-                                  </svg>
-                                </Link>
-                                <button
-                                  className="mt-3 w-full inline-flex justify-center  rounded-2xl border shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                  onClick={() =>
-                                    handleDeleteButtonClick(lead.id)
-                                  }
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="size-4"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
-                                </button>
-                              </td>
-                              <td className="px-6 py-4">
+                          
+                          <div
+                            className="row border-bottom px-3 mb-2"
+                            key={lead.id}
+                            style={{ width: "1500px" }}
+                          >
+                            <div className="col">
+                              <p className="fw-bold mb-1">{lead.fullname}</p>
+                              <p className="mb-1">{lead.address}</p>
+                              <p className="mb-1 fw-bold text-warning">
+                                #{lead.lead_number}
+                              </p>
+                              <p className="m-0 fs-6 text text-secondary">
+                                branch office
+                              </p>
+                              <p className="text-black mb-1 fs-6 text">
+                                {" "}
                                 {lead.branch_office}
-                              </td>
-                              <td className="px-6 py-4">{lead.fullname}</td>
-                              <td className="px-6 py-4">{lead.address}</td>
-                              <td className="px-6 py-4">{lead.lead_number}</td>
-                              <td className="px-6 py-4">
-                                {lead.email}, {lead.phone}
-                              </td>
-                              <td className="px-6 py-4">
+                              </p>
+
+                              <p className="m-0 fs-6 text text-secondary">
+                                Created By
+                              </p>
+                              <div className="d-flex mb-5">
+                                <div
+                                  className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2"
+                                  style={{ height: "40px", width: "40px" }}
+                                >
+                                  <p className="text-center text-white m-0 p-2">
+                                    SU
+                                  </p>
+                                </div>
+                                <div>
+                                  <p
+                                    className="mb-1"
+                                    style={{ fontSize: "10px" }}
+                                  >
+                                    Super admin
+                                  </p>
+                                  <p
+                                    className="mb-1"
+                                    style={{ fontSize: "10px" }}
+                                  >
+                                    {new Date(
+                                      lead.created_at
+                                    ).toLocaleDateString("en-GB")}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <p className="text-black mb-1">{lead.email}</p>
+                              <p className="text-secondary mb-1">
+                                {lead.phone}
+                              </p>
+                            </div>
+                            <div className="col">
+                              <p className="text-secondary mb-1">
+                                Probability:
+                              </p>
+                              {lead.lead_probability?.name === "Pending" ? (
+                                <span className="badge rounded-pill text-bg-warning">
+                                  {lead.lead_probability?.name}
+                                </span>
+                              ) : lead.lead_probability?.name === "Cancel" ? (
+                                <span className="badge rounded-pill text-bg-danger">
+                                  {lead.lead_probability?.name}
+                                </span>
+                              ) : (
+                                <span className="badge rounded-pill text-bg-primary">
+                                  {lead.lead_probability?.name}
+                                </span>
+                              )}
+                              <FiEdit className="mx-2"/>
+                              <p className="text-secondary mb-1">Status:</p>
+                              <span className="badge rounded-pill bg-warning text-black">
                                 {lead.lead_status?.name}
-                              </td>
-                              <td className="px-6 py-4">
-                                {lead.lead_probability?.name}
-                              </td>
-                              <td className="px-6 py-4">
-                                {lead.lead_channel?.name},{" "}
-                                {lead.lead_media?.name},{" "}
+                              </span>
+                              <FiEdit className="mx-2"/>
+                              <p className="text-secondary mb-1">Notes:</p>
+                              <p>{lead.general_notes}</p>
+                            </div>
+                            <div className="col">
+                              <p className="text-secondary mb-1">Type:</p>
+                              <p className="text-black mb-1">
+                                {lead.lead_type?.name}
+                              </p>
+                              <p className="text-secondary mb-1">Channel:</p>
+                              <p className="text-black mb-1">
+                                {lead.lead_channel?.name}
+                              </p>
+                              <p className="text-secondary mb-1">Media:</p>
+                              <p className="text-black mb-1">
+                                {lead.lead_media?.name}
+                              </p>
+                              <p className="text-secondary mb-1">Source:</p>
+                              <p className="text-black mb-1">
                                 {lead.lead_source?.name}
-                              </td>
-                              <td className="px-6 py-4">
-                                {new Date(lead.created_at).toLocaleDateString(
-                                  "en-GB"
-                                )}
-                              </td>
-                            </tr>
-                          ))}
+                              </p>
+                            </div>
+                            <div className="col">
+                              <div className="d-flex justify-content-between">
+                                <Link to="" className="d-flex">
+                                  <FiUser style={{ width: "20px" }} />{" "}
+                                  <p
+                                    className="text-decoration-underline"
+                                    href="#"
+                                    style={{ fontSize: "11px" }}
+                                  >
+                                    ADD ASSIGNE
+                                  </p>
+                                </Link>
+                                <div>
+                                  <Link
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      toggleDropdown(lead);
+                                    }}
+                                  >
+                                    <FiMoreHorizontal
+                                      style={{ width: "20px" }}
+                                    />
+                                  </Link>
+                                  <ul
+                                    className={`dropdown-menu dropdown-list dropdown-menu-end dropdown-menu-arrow profile ${
+                                      showDropdown && selectedLead?.id === lead.id
+                                        ? "show"
+                                        : "hidden"
+                                    }`}
+                                  >
+                                    <li>
+                                      <Link
+                                        to={`/leads-detail/${selectedLead?.id}`}
+                                        className="dropdown-item d-flex align-items-center"
+                                      >
+                                        <i className="bi bi-person"></i>
+                                        <span>Detail</span>
+                                      </Link>
+                                    </li>
+
+                                    <li>
+                                      <Link
+                                        to={`/leads-update/${selectedLead?.id}`}
+                                        className="dropdown-item d-flex align-items-center"
+                                      >
+                                        <i className="bi bi-gear"></i>
+                                        <span>Edit</span>
+                                      </Link>
+                                    </li>
+                                    <li>
+                                      <Link
+                                        onClick={() =>
+                                          handleDeleteButtonClick(selectedLead?.id)
+                                        }
+                                        className="dropdown-item d-flex align-items-center text-danger"
+                                      >
+                                        <i className="bi bi-gear"></i>
+                                        <span>Delete</span>
+                                      </Link>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </>
-                      )}
-                    </tbody>
-                  </table>
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
             </div>

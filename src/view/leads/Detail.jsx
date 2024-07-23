@@ -1,8 +1,12 @@
 // src/components/LeadDetail.js
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import Layout from '../../Layout/Index';
-import Api from '../../api/Index';
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import Layout from "../../Layout/Index";
+import Api from "../../api/Index";
+import { FaPlus } from "react-icons/fa6";
+import { FiEdit } from "react-icons/fi";
+
+import { FiHome } from "react-icons/fi";
 
 function LeadDetail() {
   const { id } = useParams(); // Mengambil id dari parameter URL
@@ -13,7 +17,7 @@ function LeadDetail() {
   const fetchLeadDetail = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
@@ -21,10 +25,10 @@ function LeadDetail() {
       setLead(response.data.data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        localStorage.removeItem('token');
-        window.location.href = '/';
+        localStorage.removeItem("token");
+        window.location.href = "/";
       } else {
-        console.error('Terjadi kesalahan:', error);
+        console.error("Terjadi kesalahan:", error);
       }
     }
     setLoading(false);
@@ -54,53 +58,145 @@ function LeadDetail() {
 
   return (
     <Layout>
-      <div className="container mx-auto my-4">
-      <div>
-            <h2 className="text-lg font-bold mb-4">Lead Detail</h2>
+      <div className="container">
+        <div className="d-flex justify-content-between mb-4">
+          <h3 className="text-black fw-bold" style={{ fontSize: "20px" }}>
+            Lead Detail
+          </h3>
+          <div className="d-flex justify-content-between">
+            <Link
+              to={"/leads-create"}
+              className="btn btn-globalxtream d-flex justify-content-between mx-3"
+            >
+             
+                <span style={{marginTop:'1px'}}>Add New{" "}</span>
+             
+              <FaPlus style={{ width: "33px", marginTop:'5px', marginBottom:'5px'}} />
+            </Link>
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="btn btn-outline-secondary"
               onClick={() => navigate(-1)}
             >
               Back
             </button>
           </div>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="mt-4 p-4 border rounded-lg bg-white">
-            <div className="mb-4">
-              <p className="font-semibold">Branch Office Name:</p>
-              <p>{lead.branch_office}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Name:</p>
-              <p>{lead.fullname}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Address:</p>
-              <p>{lead.address}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Number:</p>
-              <p>{lead.lead_number}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Primary Contact:</p>
-              <p>{lead.email}, {lead.phone}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Status:</p>
-              <p>{lead.lead_status?.name}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Probability:</p>
-              <p>{lead.lead_probability?.name}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Lead Channel, Media, Source:</p>
-              <p>{lead.lead_channel?.name}, {lead.lead_media?.name}, {lead.lead_source?.name}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-semibold">Created At:</p>
-              <p>{new Date(lead.created_at).toLocaleDateString('en-GB')}</p>
+        </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card shadow-none rounded">
+              <div className="card-body">
+                <div className="d-flex mt-3">
+                  <div>
+                  <p className="mb-1 text-warning fs-4 text">
+                                #{lead.lead_number}
+                              </p>
+                  </div>
+                  <div>
+                    <Link className="btn btn-secondary rounded-circle mx-3 border-0 text-secondary" style={{background: '#F0F0F5',}}>
+                    <FiEdit />
+                    </Link>
+                  </div>
+                  <div>
+                    <Link className="btn btn-globalxtream"><FiHome style={{width:'20px', marginBottom:'4px'}}/> {lead.branch_office}</Link>
+                  </div>
+                </div>
+                <p>  {new Date(
+                                      lead.created_at
+                                    ).toLocaleDateString("en-GB")}</p>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Primary Contact</span>
+                      </div>
+                      <div className="col-lg-8">
+                        {lead.fullname}
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Address</span>
+                      </div>
+                      <div className="col-lg-8">
+                        {lead.address}
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Email</span>
+                      </div>
+                      <div className="col-lg-8">
+                        {lead.email}
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Phone No.</span>
+                      </div>
+                      <div className="col-lg-8">
+                        {lead.phone}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-6 mb-5">
+                  <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Status</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="badge text-bg-secondary">{lead.lead_status?.name}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Probability</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="badge text-bg-danger">{lead.lead_probability?.name}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Source</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="text-black">{lead.lead_source?.name}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Media</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="text-black">{lead.lead_media?.name}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Channel</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="text-black">{lead.lead_channel?.name}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-lg-4">
+                       <span className="text-secondary mb-3">Created</span>
+                      </div>
+                      <div className="col-lg-8">
+                        <span className="text-black">{new Date(lead.created_at).toLocaleDateString("en-GB")}
+                          </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         </div>

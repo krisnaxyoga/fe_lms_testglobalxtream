@@ -21,7 +21,7 @@ function CustomDateRangePicker({ onChange }) {
             setEndDate(ranges.selection.endDate);
             setShowPicker(false);
             setDateSelectionState('start');
-            onChange(ranges.selection); // Pass selected range to parent component
+            onChange(ranges.selection); 
         }
     };
 

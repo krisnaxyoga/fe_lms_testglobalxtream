@@ -621,6 +621,24 @@
   .hidden{
     display: none !important;
   }
+  .form-check-input:checked{
+    background-color: #F9C900
+;
+    border-color: #F9C900
+;
+  }
+  .nav-tabs .nav-link.active {
+    border-bottom: 3px solid #F9C900;
+  }
+  .nav-tabs .nav-link {
+    border:none;
+    color: black;
+  }
+  .nav-tabs .nav-link:hover {
+    isolation: isolate;
+    border-color: var(--bs-nav-tabs-link-hover-border-color);
+    border-bottom: 3px solid #F9C900;
+}
   /*--------------------------------------------------------------
   # Sidebar
   --------------------------------------------------------------*/
@@ -636,7 +654,7 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #aab7cf transparent;
-    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+    /* box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1); */
     background-color: #fff;
   }
   
@@ -1236,7 +1254,7 @@
   cursor: pointer;
 }
 .bg-grey{
-  background: #f1f1f1;
+  background: #F0F0F5;
 }
 .custom-input input {
   border: none;
@@ -1251,7 +1269,10 @@
   font-size: 14px;
 }
 
-
+.dropdown-list {
+  
+  right: 38px !important;
+}
 .calendar-icon {
   margin-right: 6px;
   color: #ced4da;

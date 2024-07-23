@@ -1,7 +1,11 @@
 // Import useState and useRef hooks from React
 import React, { useEffect, useState, useRef } from "react";
 import Api from "../../../api/Index";
+import { FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
+import { FaPlus } from "react-icons/fa6";
+import { FiEdit } from "react-icons/fi";
 function List() {
   const [leadTypes, setleadTypes] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -89,9 +93,56 @@ function List() {
 
   return (
     <>
+    <div className="container">
+    <div className="d-flex justify-content-between mb-3">
+          <h3
+                    className="text-black fw-bold"
+                    style={{ fontSize: "20px" }}
+                  >Lead Type</h3>
+                  <Link
+                    to=''
+                    className="btn btn-globalxtream d-flex justify-content-between"
+                  >
+                    <p className="m-0 fw-bold" style={{ fontSize: "12px" }}>
+                      Add New{" "}
+                    </p>
+                    <FaPlus style={{ width: "19px", marginLeft: "4px" }} />
+                  </Link>
+          </div>
+      <div className="row" style={{    marginRight: '1px',
+    marginLeft: '-3px'}}>
+      {leadTypes.map((type) => (
+        <div className="col-lg-3 p-0 mx-1">
+          <div className="card border border-secondary-subtle shadow-none">
+            <div className="card-body pb-0">
+              <div className="d-flex justify-content-between">
+                <div>
+                  <p className="text-secondary m-0 my-3">{type.name}</p>
+                  
+                </div>
+                <div>
+                <button
+                    className="btn btn-transparant"
+                    onClick={() => handleEditButtonClick(type)}
+                  >
+                    <FiEdit className="text-secondary"/>
+                  </button>
+                  <button
+                     className="btn btn-transparant"
+                   onClick={()=>handleDeleteButtonClick(type)}>
+                   <FiTrash2 className="text-danger"/>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         ))}
+      </div>
+    </div>
       <div className="overflow-x-auto">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="btn btn-globalxtream"
           onClick={handleAddButtonClick}
         >
           Add
