@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function MasterData() {
   const history = useNavigate();
-  const [activeTab, setActiveTab] = useState("lead-statuses");
+  const [activeTab, setActiveTab] = useState("lead-type");
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -151,6 +151,17 @@ export default function MasterData() {
           </div>
           <div className="card-body p-4">
             <div className="tab-content" id="myTabContent">
+            <div
+                className={`tab-pane fade ${
+                  activeTab === "lead-type" ? "show active" : ""
+                }`}
+                id="lead-type"
+                role="tabpanel"
+                aria-labelledby="lead-type-tab"
+              >
+                
+                <LeadType />
+              </div>
               <div
                 className={`tab-pane fade ${
                   activeTab === "lead-statuses" ? "show active" : ""
@@ -159,10 +170,7 @@ export default function MasterData() {
                 role="tabpanel"
                 aria-labelledby="lead-statuses-tab"
               >
-                <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead Statuses</h3>
+               
                 <LeadStatuses />
               </div>
               <div
@@ -179,17 +187,7 @@ export default function MasterData() {
                   >Lead Probabilities</h3>
                 <LeadPorbabilities />
               </div>
-              <div
-                className={`tab-pane fade ${
-                  activeTab === "lead-type" ? "show active" : ""
-                }`}
-                id="lead-type"
-                role="tabpanel"
-                aria-labelledby="lead-type-tab"
-              >
-                
-                <LeadType />
-              </div>
+            
               <div
                 className={`tab-pane fade ${
                   activeTab === "lead-channels" ? "show active" : ""
