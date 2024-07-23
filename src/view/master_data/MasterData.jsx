@@ -181,10 +181,6 @@ export default function MasterData() {
                 role="tabpanel"
                 aria-labelledby="lead-probabilities-tab"
               >
-                <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead Probabilities</h3>
                 <LeadPorbabilities />
               </div>
             
@@ -196,10 +192,6 @@ export default function MasterData() {
                 role="tabpanel"
                 aria-labelledby="lead-channels-tab"
               >
-                <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead Channels</h3>
                 <LeadChannel />
               </div>
               <div
@@ -210,10 +202,7 @@ export default function MasterData() {
                 role="tabpanel"
                 aria-labelledby="lead-medias-tab"
               >
-                <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead Medias</h3>
+               
                 <LeadMedias />
               </div>
               <div
@@ -224,10 +213,7 @@ export default function MasterData() {
                 role="tabpanel"
                 aria-labelledby="lead-sources-tab"
               >
-                <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead Sources</h3>
+              
                 <LeadSources />
               </div>
             </div>

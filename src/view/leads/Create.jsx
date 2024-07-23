@@ -36,7 +36,7 @@ export default function Create() {
     setOpenOther(!openother);
   };
   const [filteredMedia, setFilteredMedia] = useState([]);
-
+console.log(filteredMedia)
   const handleChannelChange = (e) => {
     const channelId = e.target.value;
     setFormData({ ...formData, lead_channel: channelId });
