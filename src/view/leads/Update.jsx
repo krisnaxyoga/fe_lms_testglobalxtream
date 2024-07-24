@@ -85,13 +85,11 @@ export default function Update() {
     const channelId = e.target.value;
     setFormData({ ...formData, lead_channel: channelId });
 
-    // Filter media berdasarkan channel_id
     const mediaFiltered = media.filter((item) => item.channel_id == channelId);
-    console.log(mediaFiltered, ">>>MEDIA FILOTE");
+
     setFilteredMedia(mediaFiltered);
     setMediadisable(true);
 
-    // Reset lead_media saat channel berubah
     setFormData((prevState) => ({ ...prevState, lead_media: "" }));
   };
 
@@ -262,7 +260,7 @@ export default function Update() {
     fetchProbability();
     fetchType();
   }, []);
-  console.log(leads, ">>>LEADS");
+
   return (
     <Layout>
       <form onSubmit={handleFormSubmit}>
@@ -657,27 +655,32 @@ export default function Update() {
         <div className="fixed-bottom" style={{ zIndex: "888" }}>
           <div className="card mb-0">
             <dic className="card-body">
-              <div className="d-flex justify-content-between p-2">
-                <div className="d-flex" style={{ marginLeft: "20%" }}>
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="keepSignedIn"
-                  />
-                  <label
-                    className="form-check-label mx-3"
-                    htmlFor="keepSignedIn"
-                  >
-                    I hereby certify that the information above is true and
-                    accurate.
-                  </label>
+              <div className="row pt-3 justify-content-between">
+                <div className="col-lg-2"></div>
+                <div className="col-lg-6 mb-2">
+                  <div className="d-flex">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="keepSignedIn"
+                    />
+                    <label
+                      className="form-check-label mx-3"
+                      htmlFor="keepSignedIn"
+                    >
+                      I hereby certify that the information above is true and
+                      accurate.
+                    </label>
+                  </div>
                 </div>
-                <div className="d-flex justify-content-between">
-                  <button className="btn btn-outline-dark mx-5">cancel</button>
-                  <button type="submit" className="btn btn-globalxtream">
-                    Save
-                  </button>
+                <div className="col-lg-2">
+                  <div className="d-flex justify-content-evenly">
+                    <button className="btn btn-outline-dark">cancel</button>
+                    <button type="submit" className="btn btn-globalxtream">
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </dic>

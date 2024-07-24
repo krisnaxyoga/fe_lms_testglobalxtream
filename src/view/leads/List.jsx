@@ -20,7 +20,7 @@ function List() {
   const [leads, setLeads] = useState([]);
   const [filters, setFilters] = useState({
     searchText: "",
-    dateRange: null, // Ubah dateFrom dan dateTo menjadi dateRange
+    dateRange: null, 
     status: "",
     branchOffice: "",
   });
@@ -98,13 +98,11 @@ function List() {
   };
 
   const handleDateRangeChange = (selectedRange) => {
-    console.log(selectedRange);
     setFilters({
       ...filters,
       dateRange: selectedRange,
     });
   };
-  // console.log(filters);
 
   return (
     <Layout>

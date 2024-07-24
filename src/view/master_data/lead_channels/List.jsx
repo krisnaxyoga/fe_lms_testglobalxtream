@@ -109,7 +109,7 @@ function List() {
       <div className="container">
         <div className="d-flex justify-content-between mb-3">
           <h3 className="text-black fw-bold" style={{ fontSize: "20px" }}>
-            Lead probability
+            Lead Channel
           </h3>
           <Link
             onClick={handleAddButtonClick}
@@ -173,7 +173,7 @@ function List() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
-                  {selectedChannel ? "Edit probability" : "Add New probability"}
+                  {selectedChannel ? "Edit Channel" : "Add New Channel"}
                 </h5>
                 <button
                   type="button"

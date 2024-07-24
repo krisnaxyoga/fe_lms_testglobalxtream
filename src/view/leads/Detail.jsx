@@ -9,7 +9,7 @@ import { FiEdit } from "react-icons/fi";
 import { FiHome } from "react-icons/fi";
 
 function LeadDetail() {
-  const { id } = useParams(); // Mengambil id dari parameter URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [lead, setLead] = useState(null);
   const [loading, setLoading] = useState(false);
