@@ -11,7 +11,6 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 
 function List() {
-  const navigate = useNavigate();
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);

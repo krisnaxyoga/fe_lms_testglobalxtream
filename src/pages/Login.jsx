@@ -1,4 +1,3 @@
-//import hook react
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -54,6 +53,10 @@ function Login() {
     setLoading(false);
   };
 
+  //function to close alert
+  const closeAlert = (e) => {
+    e.target.closest(".alert").remove();
+  };
   return (
     <>
       <section className="vh-100">
@@ -94,7 +97,9 @@ function Login() {
                     className="btn-close"
                     data-bs-dismiss="alert"
                     aria-label="Close"
+                    onClick={closeAlert}
                   ></button>
+                   
                 </div>
               )}
 

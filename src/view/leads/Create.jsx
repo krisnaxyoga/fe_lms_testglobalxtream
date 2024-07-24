@@ -153,7 +153,7 @@ export default function Create() {
       <form onSubmit={handleFormSubmit}>
         <div className="container">
           <h3 className="text-black fw-bold" style={{ fontSize: "20px" }}>
-            Lead Manage
+            Add New Lead
           </h3>
           <div className="row">
             <div className="col-lg-12">
@@ -197,7 +197,7 @@ export default function Create() {
                         for="branch_office"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Branch Office
+                        Branch Office<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -207,7 +207,7 @@ export default function Create() {
                         onChange={handleChange}
                         className="form-control"
                       >
-                        <option value="">- select -</option>
+                        <option value="">- Select Branch Office -</option>
                         <option value="GlobalXtreme Bali">
                           GlobalXtreme Bali
                         </option>
@@ -233,7 +233,7 @@ export default function Create() {
                         for="full_name"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Full name
+                        Full name<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -243,6 +243,7 @@ export default function Create() {
                         value={formData.fullname}
                         onChange={handleChange}
                         className="form-control"
+                        placeholder="e.g Arbianto Salampesi"
                         required
                       />
                     </div>
@@ -253,7 +254,7 @@ export default function Create() {
                         for="address"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Your address
+                        Your address<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -275,7 +276,7 @@ export default function Create() {
                         for="email"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Email
+                        Email<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -285,7 +286,7 @@ export default function Create() {
                         value={formData.email}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder="email@mail.com"
+                        placeholder="e.g arbimdy@gmail.com"
                         required
                       />
                     </div>
@@ -296,7 +297,7 @@ export default function Create() {
                         for="phone"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Phone number
+                        Phone number<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -307,7 +308,7 @@ export default function Create() {
                         value={formData.phone}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder="081-092..."
+                        placeholder="e.g 081123001002"
                         required
                       />
                     </div>
@@ -358,7 +359,7 @@ export default function Create() {
                         for="visitors"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Status
+                        Status<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -383,7 +384,7 @@ export default function Create() {
                         for="probability"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Probability
+                        Probability<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -408,7 +409,7 @@ export default function Create() {
                         for="lead_type"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Lead Type
+                        Lead Type<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -433,7 +434,7 @@ export default function Create() {
                         for="lead_channel"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Lead Channel
+                        Lead Channel<span className="text-danger">*</span>
                       </label>
                     </div>
                     <div className="col-lg-4">
@@ -460,7 +461,7 @@ export default function Create() {
                             for="lead_media"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Lead media
+                            Lead media<span className="text-danger">*</span>
                           </label>
                         </div>
                         <div className="col-lg-4">
@@ -492,7 +493,7 @@ export default function Create() {
                             for="lead source"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Lead source
+                            Lead source<span className="text-danger">*</span>
                           </label>
                         </div>
                         <div className="col-lg-4">
