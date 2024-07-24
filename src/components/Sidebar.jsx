@@ -172,40 +172,7 @@ const Sidebar = () => {
                   showDropdown ? "show" : "hidden"
                 }`}
               >
-                <li className="dropdown-header">
-                  <h6>Kevin Anderson</h6>
-                  <span>Web Designer</span>
-                </li>
-
-                <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center"
-                    href="users-profile.html"
-                  >
-                    <i className="bi bi-person"></i>
-                    <span>My Profile</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center"
-                    href="users-profile.html"
-                  >
-                    <i className="bi bi-gear"></i>
-                    <span>Account Settings</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center"
-                    href="pages-faq.html"
-                  >
-                    <i className="bi bi-question-circle"></i>
-                    <span>Need Help?</span>
-                  </Link>
-                </li>
+                
 
                 <li>
                   <Link
