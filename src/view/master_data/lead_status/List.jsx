@@ -113,6 +113,11 @@ function List() {
           </Link>
         </div>
         <div className="row" style={{ marginRight: "1px", marginLeft: "-3px" }}>
+        {loading &&   <div class="d-flex justify-content-center my-5">
+                        <div class="spinner-grow text-warning" style={{width: '3rem', height: '3rem'}} role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>}
           {leadStatuses.map((item) => (
             <div className="col-lg-3 p-0 mx-1" key={item.id}>
               <div className="card border border-secondary-subtle shadow-none">

@@ -61,14 +61,22 @@ function List() {
       let response;
       if (selectedProbabilities) {
         // Update existing probabilitie
-        response = await Api.put(`/api/lead_probabilities/${selectedProbabilities.id}`, { name: newName }, config);
+        response = await Api.put(
+          `/api/lead_probabilities/${selectedProbabilities.id}`,
+          { name: newName },
+          config
+        );
       } else {
         // Add new probabilitie
-        response = await Api.post('/api/lead_probabilities', { name: newName }, config);
+        response = await Api.post(
+          "/api/lead_probabilities",
+          { name: newName },
+          config
+        );
       }
       if (response.status === 201 || response.status === 200) {
         fetchData();
-        nameRef.current.value = '';
+        nameRef.current.value = "";
         setShowModal(false);
       }
     } catch (error) {
@@ -90,19 +98,17 @@ function List() {
     }
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <>
-     <div className="container">
+      <div className="container">
         <div className="d-flex justify-content-between mb-3">
-        <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead probability</h3>
+          <h3 className="text-black fw-bold" style={{ fontSize: "20px" }}>
+            Lead probability
+          </h3>
           <Link
             onClick={handleAddButtonClick}
             className="btn btn-globalxtream d-flex justify-content-between"
@@ -114,6 +120,17 @@ function List() {
           </Link>
         </div>
         <div className="row" style={{ marginRight: "1px", marginLeft: "-3px" }}>
+          {loading && (
+            <div class="d-flex justify-content-center my-5">
+              <div
+                class="spinner-grow text-warning"
+                style={{ width: "3rem", height: "3rem" }}
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )}
           {leadProbabilities.map((item) => (
             <div className="col-lg-3 p-0 mx-1" key={item.id}>
               <div className="card border border-secondary-subtle shadow-none">
@@ -143,61 +160,63 @@ function List() {
           ))}
         </div>
       </div>
-      
+
       {showModal && (
         <div className="modal show d-block" tabIndex="-1" role="dialog">
-        <div
-          className="modal-dialog"
-          role="document"
-          style={{ pointerEvents: "all" }}
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                {selectedProbabilities ? "Edit probability" : "Add New probability"}
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={handleModalClose}
-                aria-label="Close"
-              ></button>
-            </div>
-            <form onSubmit={handleFormSubmit}>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    ref={nameRef}
-                            defaultValue={
-                              selectedProbabilities ? selectedProbabilities.name : ""}
-                    className="form-control"
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                  {selectedProbabilities ? "Update" : "Save"}
-                </button>
+          <div
+            className="modal-dialog"
+            role="document"
+            style={{ pointerEvents: "all" }}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {selectedProbabilities
+                    ? "Edit probability"
+                    : "Add New probability"}
+                </h5>
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn-close"
                   onClick={handleModalClose}
-                >
-                  Cancel
-                </button>
+                  aria-label="Close"
+                ></button>
               </div>
-            </form>
+              <form onSubmit={handleFormSubmit}>
+                <div className="modal-body">
+                  <div className="form-group">
+                    <label htmlFor="name" className="form-label">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      ref={nameRef}
+                      defaultValue={
+                        selectedProbabilities ? selectedProbabilities.name : ""
+                      }
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    {selectedProbabilities ? "Update" : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleModalClose}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
       )}
-      
     </>
   );
 }

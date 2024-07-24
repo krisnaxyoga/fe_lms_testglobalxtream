@@ -1,7 +1,9 @@
 //import hook react
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
+import Api from "../api/Index";
 
 function Login() {
   //define state
@@ -9,6 +11,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   //define state validation
   const [validation, setValidation] = useState([]);
@@ -31,35 +34,24 @@ function Login() {
   //function "loginHanlder"
   const loginHandler = async (e) => {
     e.preventDefault();
-
-    //set loading to true
     setLoading(true);
+    try {
+      //initialize formData
+      const formData = new FormData();
 
-    //initialize formData
-    const formData = new FormData();
+      //append data to formData
+      formData.append("email", email);
+      formData.append("password", password);
 
-    //append data to formData
-    formData.append("email", email);
-    formData.append("password", password);
+      //send data to server
+      const response = await Api.post("/api/auth/login", formData);
+      localStorage.setItem("token", response.data.token);
+      history("/dashboard");
+    } catch (error) {
+      setValidation(error.response.data);
+    }
 
-    //send data to server
-    await axios
-      .post("https://demo.whiskypeak.com/api/auth/login", formData)
-      .then((response) => {
-        //set token on localStorage
-        localStorage.setItem("token", response.data.token);
-
-        //redirect to dashboard
-        history("/dashboard");
-      })
-      .catch((error) => {
-        //assign error to state "validation"
-        setValidation(error.response.data);
-      })
-      .finally(() => {
-        //set loading to false
-        setLoading(false);
-      });
+    setLoading(false);
   };
 
   return (
@@ -124,6 +116,7 @@ function Login() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       id="form2Example18"
+                      placeholder="e.g arbi@globalxtreme.net"
                       className={`form-control form-control-lg ${
                         error ? "is-invalid" : ""
                       }`}
@@ -141,15 +134,35 @@ function Login() {
                         Password
                       </label>
                     </div>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      id="form2Example28"
-                      className={`form-control form-control-lg ${
-                        error ? "is-invalid" : ""
-                      }`}
-                    />
+                    <div className="form-outline mb-4">
+                      <div
+                        className={`input-group ${error ? "is-invalid" : ""}`}
+                      >
+                        <input
+                          style={{ borderRight: "0px" }}
+                          type={showPassword ? "text" : "password"}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          id="form2Example28"
+                          className="form-control form-control-lg"
+                          placeholder={showPassword ? "" : "password"}
+                        />
+                        <span
+                          className="input-group-text bg-white"
+                          onClick={() => setShowPassword(!showPassword)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {showPassword ? <FiEyeOff /> : <FiEye />}
+                        </span>
+                      </div>
+
+                      {error && (
+                        <div className="invalid-feedback">
+                          {/* Tampilkan pesan error sesuai kebutuhan */}
+                          Password tidak valid.
+                        </div>
+                      )}
+                    </div>
 
                     {validation.password && (
                       <div className="invalid-feedback">
@@ -157,6 +170,7 @@ function Login() {
                       </div>
                     )}
                   </div>
+
                   <div className="form-check mb-3">
                     <input
                       className="form-check-input"
@@ -179,11 +193,10 @@ function Login() {
                     </button>
                   </div>
                 </form>
-              </div> 
-             
-              <div className="container align-items-center" /> 
+              </div>
+
+              <div className="container align-items-center" />
               <div className="d-flex align-items-end justify-content-center ">
-               
                 <p
                   className="mt-5 mb-3 text-muted text-center border-top-login"
                   style={{ fontSize: "12px" }}
@@ -200,7 +213,7 @@ function Login() {
                 style={{
                   backgroundColor:
                     "linear-gradient(360deg, #221C00 14.45%, rgba(0, 0, 0, 0) 51.27%)",
-                    width: "37rem",
+                  width: "37rem",
                 }}
               >
                 <img

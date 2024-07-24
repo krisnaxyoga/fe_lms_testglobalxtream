@@ -14,7 +14,7 @@ export default function Create() {
     email: "",
     phone: "",
     address: "",
-    status: 1,
+    status: "",
     probability: "",
     lead_type: "",
     lead_channel: "",
@@ -22,12 +22,24 @@ export default function Create() {
     lead_source: "",
     general_notes: "",
   });
-  const [open, setOpen] = useState(false);
-  const [openother, setOpenOther] = useState(false);
+
+  const [open, setOpen] = useState(true);
+  const [openother, setOpenOther] = useState(true);
   const [channel, setChannel] = useState([]);
+  const [media, setMedia] = useState([]);
+  const [sources, setSources] = useState([]);
+  const [filteredMedia, setFilteredMedia] = useState([]);
+  const [filteredSources, setFilteredSources] = useState([]);
+  const [probability, setProbability] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [leadtype, setLeadtype] = useState([]);
+
+  const history = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const toggleCollapse = () => {
     setOpen(!open);
   };
@@ -35,147 +47,31 @@ export default function Create() {
   const toggleCollapseOther = () => {
     setOpenOther(!openother);
   };
-  const [filteredMedia, setFilteredMedia] = useState([]);
-console.log(filteredMedia)
+
   const handleChannelChange = (e) => {
     const channelId = e.target.value;
     setFormData({ ...formData, lead_channel: channelId });
 
     // Filter media berdasarkan channel_id
-    const mediaFiltered = media.filter(
-      (item) => item.channel_id === Number(channelId)
-    );
+    const mediaFiltered = media.filter((item) => item.channel_id == channelId);
     setFilteredMedia(mediaFiltered);
 
     // Reset lead_media saat channel berubah
     setFormData((prevState) => ({ ...prevState, lead_media: "" }));
   };
-  const [media, setMedia] = useState([]);
-  const fetchMedia = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_medias", config);
-      setMedia(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-  const [sources, setSources] = useState([]);
-  const fetchSources = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_sources", config);
-      setSources(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-  const [filteredSources, setFilteredSources] = useState([]);
 
   const handleMediaChange = (e) => {
     const mediaId = e.target.value;
     setFormData({ ...formData, lead_media: mediaId });
 
-    const sourceFiltered = sources.filter(
-      (item) => item.media_id === Number(mediaId)
-    );
-    setFilteredSources(sourceFiltered);
+    // Filter sources berdasarkan media_id
+    const sourcesFiltered = sources.filter((item) => item.media_id == mediaId);
+    setFilteredSources(sourcesFiltered);
 
+    // Reset lead_source saat media berubah
     setFormData((prevState) => ({ ...prevState, lead_source: "" }));
   };
 
-  const fetchChannel = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_channels", config);
-      setChannel(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-
- 
-
-  const [probability, setProbability] = useState([]);
-  const fetchProbability = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_probabilities", config);
-      setProbability(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-  const [status, setstatuse] = useState([]);
-  const fetchstatuse = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_statuses", config);
-      setstatuse(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-  const [leadtype, setLeadtype] = useState([]);
-  const fetchType = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const response = await Api.get("/api/lead_types", config);
-      setLeadtype(response.data.data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } else {
-        console.error("Terjadi kesalahan:", error);
-      }
-    }
-  };
-  //define history
-  const history = useNavigate();
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -184,12 +80,12 @@ console.log(filteredMedia)
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      let response;
 
-      // Add new medias
-      response = await Api.post("/api/leads", formData, config);
+      // Kirim data formData ke API untuk disimpan
+      const response = await Api.post("/api/leads", formData, config);
 
       if (response.status === 201 || response.status === 200) {
+        // Reset form setelah berhasil disimpan
         setFormData({
           branch_office: "",
           fullname: "",
@@ -204,20 +100,55 @@ console.log(filteredMedia)
           lead_source: "",
           general_notes: "",
         });
-      }
 
-      history("/leads");
+        // Redirect ke halaman /leads setelah berhasil disimpan
+        history("/leads");
+      }
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
     }
   };
+
   useEffect(() => {
-    fetchChannel();
-    fetchMedia();
-    fetchSources();
-    fetchProbability();
-    fetchType();
-    fetchstatuse();
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        // Fetch data secara paralel
+        const [
+          channelResponse,
+          mediaResponse,
+          sourcesResponse,
+          probabilityResponse,
+          statusResponse,
+          leadtypeResponse,
+        ] = await Promise.all([
+          Api.get("/api/lead_channels", config),
+          Api.get("/api/lead_medias", config),
+          Api.get("/api/lead_sources", config),
+          Api.get("/api/lead_probabilities", config),
+          Api.get("/api/lead_statuses", config),
+          Api.get("/api/lead_types", config),
+        ]);
+
+        setChannel(channelResponse.data.data);
+        setMedia(mediaResponse.data.data);
+        setSources(sourcesResponse.data.data);
+        setProbability(probabilityResponse.data.data);
+        setStatus(statusResponse.data.data);
+        setLeadtype(leadtypeResponse.data.data);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem("token");
+          window.location.href = "/";
+        } else {
+          console.error("Terjadi kesalahan:", error);
+        }
+      }
+    };
+
+    fetchData();
   }, []);
   return (
     <Layout>
@@ -523,60 +454,70 @@ console.log(filteredMedia)
                       </select>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-lg-4">
-                      <label
-                        for="lead_media"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Lead media
-                      </label>
-                    </div>
-                    <div className="col-lg-4">
-                      <select
-                        name="lead_media"
-                        value={formData.lead_media}
-                        onChange={handleMediaChange}
-                        disabled={!formData.lead_channel}
-                        className="form-control"
-                      >
-                        <option value="">- select -</option>
-                        {filteredMedia.length > 0 &&
-                          filteredMedia.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <div className="col-lg-4">
-                      <label
-                        for="lead source"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Lead source
-                      </label>
-                    </div>
-                    <div className="col-lg-4">
-                      <select
-                        name="lead_source"
-                        value={formData.lead_source}
-                        onChange={handleChange}
-                        disabled={!formData.lead_media}
-                        className="form-control"
-                      >
-                        <option value="">- select -</option>
-                        {filteredSources.length > 0 &&
-                          filteredSources.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
+                  {formData.lead_channel && (
+                    <>
+                      <div className="row mb-3">
+                        <div className="col-lg-4">
+                          <label
+                            for="lead_media"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            Lead media
+                          </label>
+                        </div>
+                        <div className="col-lg-4">
+                          <select
+                            name="lead_media"
+                            value={formData.lead_media}
+                            onChange={handleMediaChange}
+                            disabled={!formData.lead_channel}
+                            className="form-control"
+                          >
+                            <option value="">- select -</option>
+                            {filteredMedia.length > 0 &&
+                              filteredMedia.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {formData.lead_media && (
+                    <>
+                      <div className="row mb-3">
+                        <div className="col-lg-4">
+                          <label
+                            for="lead source"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            Lead source
+                          </label>
+                        </div>
+                        <div className="col-lg-4">
+                          <select
+                            name="lead_source"
+                            value={formData.lead_source}
+                            onChange={handleChange}
+                            disabled={!formData.lead_media}
+                            className="form-control"
+                          >
+                            <option value="">- select -</option>
+                            {filteredSources.length > 0 &&
+                              filteredSources.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                   <div className="row mb-3">
                     <div className="col-lg-4">
                       <label
@@ -607,17 +548,20 @@ console.log(filteredMedia)
           <div className="card mb-0">
             <dic className="card-body">
               <div className="d-flex justify-content-between p-2">
-                <div className="d-flex" style={{ marginLeft: "20%" }}>
-                <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="keepSignedIn"
-                    />
-                    <label className="form-check-label mx-3" htmlFor="keepSignedIn">
+                <div className="d-flex" style={{ marginLeft: "24%" }}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="keepSignedIn"
+                  />
+                  <label
+                    className="form-check-label mx-3"
+                    htmlFor="keepSignedIn"
+                  >
                     I hereby certify that the information above is true and
                     accurate.
-                    </label>
+                  </label>
                 </div>
                 <div className="d-flex justify-content-between">
                   <button className="btn btn-outline-dark mx-5">cancel</button>

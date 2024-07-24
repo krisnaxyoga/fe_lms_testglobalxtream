@@ -68,10 +68,11 @@ function LeadDetail() {
               to={"/leads-create"}
               className="btn btn-globalxtream d-flex justify-content-between mx-3"
             >
-             
-                <span style={{marginTop:'1px'}}>Add New{" "}</span>
-             
-              <FaPlus style={{ width: "33px", marginTop:'5px', marginBottom:'5px'}} />
+              <span style={{ marginTop: "1px" }}>Add New </span>
+
+              <FaPlus
+                style={{ width: "33px", marginTop: "5px", marginBottom: "5px" }}
+              />
             </Link>
             <button
               className="btn btn-outline-secondary"
@@ -87,115 +88,114 @@ function LeadDetail() {
               <div className="card-body">
                 <div className="d-flex mt-3">
                   <div>
-                  <p className="mb-1 text-warning fs-4 text">
-                                #{lead.lead_number}
-                              </p>
+                    <p className="mb-1 text-warning fs-4 text">
+                      #{lead.lead_number}
+                    </p>
                   </div>
                   <div>
-                    <Link className="btn btn-secondary rounded-circle mx-3 border-0 text-secondary" style={{background: '#F0F0F5',}}>
-                    <FiEdit />
+                    <Link
+                      className="btn btn-secondary rounded-circle mx-3 border-0 text-secondary"
+                      style={{ background: "#F0F0F5" }}
+                    >
+                      <FiEdit />
                     </Link>
                   </div>
                   <div>
-                    <Link className="btn btn-globalxtream"><FiHome style={{width:'20px', marginBottom:'4px'}}/> {lead.branch_office}</Link>
+                    <Link className="btn btn-globalxtream">
+                      <FiHome style={{ width: "20px", marginBottom: "4px" }} />{" "}
+                      {lead.branch_office}
+                    </Link>
                   </div>
                 </div>
-                <p>  {new Date(
-                                      lead.created_at
-                                    ).toLocaleDateString("en-GB")}</p>
+                <p> {new Date(lead.created_at).toLocaleDateString("en-GB")}</p>
                 <div className="row">
                   <div className="col-lg-6">
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Primary Contact</span>
+                        <span className="text-secondary mb-3">
+                          Primary Contact
+                        </span>
                       </div>
-                      <div className="col-lg-8">
-                        {lead.fullname}
-                      </div>
+                      <div className="col-lg-8">{lead.fullname}</div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Address</span>
+                        <span className="text-secondary mb-3">Address</span>
                       </div>
-                      <div className="col-lg-8">
-                        {lead.address}
-                      </div>
+                      <div className="col-lg-8">{lead.address}</div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Email</span>
+                        <span className="text-secondary mb-3">Email</span>
                       </div>
-                      <div className="col-lg-8">
-                        {lead.email}
-                      </div>
+                      <div className="col-lg-8">{lead.email}</div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Phone No.</span>
+                        <span className="text-secondary mb-3">Phone No.</span>
                       </div>
-                      <div className="col-lg-8">
-                        {lead.phone}
-                      </div>
+                      <div className="col-lg-8">{lead.phone}</div>
                     </div>
                   </div>
                   <div className="col-lg-6 mb-5">
-                  <div className="row mb-3">
+                    <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Status</span>
+                        <span className="text-secondary mb-3">Status</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="badge text-bg-secondary">{lead.lead_status?.name}
-                          </span>
+                        <span className="badge text-bg-secondary">
+                          {lead.lead_status?.name}
+                        </span>
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Probability</span>
+                        <span className="text-secondary mb-3">Probability</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="badge text-bg-danger">{lead.lead_probability?.name}
-                          </span>
+                        <span className="badge text-bg-danger">
+                          {lead.lead_probability?.name}
+                        </span>
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Source</span>
+                        <span className="text-secondary mb-3">Source</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="text-black">{lead.lead_source?.name}
-                          </span>
+                        <span className="text-black">{lead.source?.name}</span>
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Media</span>
+                        <span className="text-secondary mb-3">Media</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="text-black">{lead.lead_media?.name}
-                          </span>
+                        <span className="text-black">{lead.media?.name}</span>
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Channel</span>
+                        <span className="text-secondary mb-3">Channel</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="text-black">{lead.lead_channel?.name}
-                          </span>
+                        <span className="text-black">{lead.channel?.name}</span>
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-lg-4">
-                       <span className="text-secondary mb-3">Created</span>
+                        <span className="text-secondary mb-3">Created</span>
                       </div>
                       <div className="col-lg-8">
-                        <span className="text-black">{new Date(lead.created_at).toLocaleDateString("en-GB")}
-                          </span>
+                        <span className="text-black">
+                          {new Date(lead.created_at).toLocaleDateString(
+                            "en-GB"
+                          )}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>

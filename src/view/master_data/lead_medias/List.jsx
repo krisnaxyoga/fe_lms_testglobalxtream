@@ -142,12 +142,11 @@ function List() {
 
   return (
     <>
-    <div className="container">
+      <div className="container">
         <div className="d-flex justify-content-between mb-3">
-        <h3
-                    className="text-black fw-bold"
-                    style={{ fontSize: "20px" }}
-                  >Lead media</h3>
+          <h3 className="text-black fw-bold" style={{ fontSize: "20px" }}>
+            Lead media
+          </h3>
           <Link
             onClick={handleAddButtonClick}
             className="btn btn-globalxtream d-flex justify-content-between"
@@ -159,6 +158,17 @@ function List() {
           </Link>
         </div>
         <div className="row" style={{ marginRight: "1px", marginLeft: "-3px" }}>
+          {loading && (
+            <div class="d-flex justify-content-center my-5">
+              <div
+                class="spinner-grow text-warning"
+                style={{ width: "3rem", height: "3rem" }}
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )}
           {leadMedias.map((item) => (
             <div className="col-lg-3 p-0 mx-1" key={item.id}>
               <div className="card border border-secondary-subtle shadow-none">
@@ -189,86 +199,88 @@ function List() {
           ))}
         </div>
       </div>
-      
+
       {showModal && (
         <div className="modal show d-block" tabIndex="-1" role="dialog">
-        <div
-          className="modal-dialog"
-          role="document"
-          style={{ pointerEvents: "all" }}
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                {selectedMedias ? "Edit media" : "Add New media"}
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={handleModalClose}
-                aria-label="Close"
-              ></button>
-            </div>
-            <form onSubmit={handleFormSubmit}>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            onChange={handleChange}
-                            value={formData.name}
-                            className="form-control" />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="" className="form-label">chanel</label>
-                  <select
-                            name="channel_id"
-                            id="channel_id"
-                            value={formData.channel_id} // Menyimpan nilai channel_id dari formData
-                            onChange={handleChange}
-                            className="form-control" >
-                            <option value="">-select-</option>
-
-                            {channel && channel.length > 0 ? (
-                              channel.map((item, index) => (
-                                <option
-                                  key={index}
-                                  value={item.id} // Mengatur value option sesuai dengan item.id
-                                >
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled value="">
-                                Tidak ada data
-                              </option>
-                            )}
-                          </select>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                  {selectedMedias ? "Update" : "Save"}
-                </button>
+          <div
+            className="modal-dialog"
+            role="document"
+            style={{ pointerEvents: "all" }}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {selectedMedias ? "Edit media" : "Add New media"}
+                </h5>
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn-close"
                   onClick={handleModalClose}
-                >
-                  Cancel
-                </button>
+                  aria-label="Close"
+                ></button>
               </div>
-            </form>
+              <form onSubmit={handleFormSubmit}>
+                <div className="modal-body">
+                  <div className="form-group">
+                    <label htmlFor="name" className="form-label">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      onChange={handleChange}
+                      value={formData.name}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="" className="form-label">
+                      chanel
+                    </label>
+                    <select
+                      name="channel_id"
+                      id="channel_id"
+                      value={formData.channel_id} // Menyimpan nilai channel_id dari formData
+                      onChange={handleChange}
+                      className="form-control"
+                    >
+                      <option value="">-select-</option>
+
+                      {channel && channel.length > 0 ? (
+                        channel.map((item, index) => (
+                          <option
+                            key={index}
+                            value={item.id} // Mengatur value option sesuai dengan item.id
+                          >
+                            {item.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option disabled value="">
+                          Tidak ada data
+                        </option>
+                      )}
+                    </select>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    {selectedMedias ? "Update" : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleModalClose}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
       )}
-      
-     
     </>
   );
 }

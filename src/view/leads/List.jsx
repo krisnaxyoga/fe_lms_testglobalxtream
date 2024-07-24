@@ -16,7 +16,6 @@ function List() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
- 
 
   const [leads, setLeads] = useState([]);
   const [filters, setFilters] = useState({
@@ -245,17 +244,20 @@ function List() {
                   </div>
                   {loading ? (
                     <>
-                      <tr>
-                        <td colSpan={6} className="text-center p-5">
-                          <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900"></div>
-                        </td>
-                      </tr>
+                      <div class="d-flex justify-content-center my-5">
+                        <div
+                          class="spinner-grow text-warning"
+                          style={{ width: "3rem", height: "3rem" }}
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
                     </>
                   ) : (
                     <>
                       {leads.map((lead) => (
                         <>
-                          
                           <div
                             className="row border-bottom px-3 mb-2"
                             key={lead.id}
@@ -280,8 +282,12 @@ function List() {
                               </p>
                               <div className="d-flex mb-5">
                                 <div
-                                  className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2"
-                                  style={{ height: "40px", width: "40px" }}
+                                  className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                  style={{
+                                    height: "40px",
+                                    width: "40px",
+                                    backgroundColor: "#ff982d",
+                                  }}
                                 >
                                   <p className="text-center text-white m-0 p-2">
                                     SU
@@ -328,31 +334,73 @@ function List() {
                                   {lead.lead_probability?.name}
                                 </span>
                               )}
-                              <FiEdit className="mx-2"/>
+                              <FiEdit className="mx-2" />
                               <p className="text-secondary mb-1">Status:</p>
-                              <span className="badge rounded-pill bg-warning text-black">
-                                {lead.lead_status?.name}
-                              </span>
-                              <FiEdit className="mx-2"/>
+                              {lead.lead_status?.name === "Consideration" ? (
+                                <span className="badge rounded-pill text-bg-primary">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name === "Junk" ? (
+                                <span
+                                  className="badge rounded-pill"
+                                  style={{ backgroundColor: "#850828" }}
+                                >
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name === "Scheduled" ? (
+                                <span
+                                  className="badge rounded-pill"
+                                  style={{ backgroundColor: "#1554DB" }}
+                                >
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name ===
+                                "Not Interested" ? (
+                                <span className="badge rounded-pill text-bg-secondary">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name ===
+                                "Future Call Back" ? (
+                                <span className="badge rounded-pill text-bg-success">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name === "Not Response" ? (
+                                <span className="badge rounded-pill text-bg-dark">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name === "Pending" ? (
+                                <span className="badge rounded-pill text-bg-warning">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : lead.lead_status?.name === "Cancel" ? (
+                                <span className="badge rounded-pill text-bg-danger">
+                                  {lead.lead_status?.name}
+                                </span>
+                              ) : (
+                                <span className="badge rounded-pill text-bg-primary">
+                                  {lead.lead_status?.name}
+                                </span>
+                              )}
+                              <FiEdit className="mx-2" />
                               <p className="text-secondary mb-1">Notes:</p>
                               <p>{lead.general_notes}</p>
                             </div>
                             <div className="col">
                               <p className="text-secondary mb-1">Type:</p>
                               <p className="text-black mb-1">
-                                {lead.lead_type?.name}
+                                {lead.type?.name}
                               </p>
                               <p className="text-secondary mb-1">Channel:</p>
                               <p className="text-black mb-1">
-                                {lead.lead_channel?.name}
+                                {lead.channel?.name}
                               </p>
                               <p className="text-secondary mb-1">Media:</p>
                               <p className="text-black mb-1">
-                                {lead.lead_media?.name}
+                                {lead.media?.name}
                               </p>
                               <p className="text-secondary mb-1">Source:</p>
                               <p className="text-black mb-1">
-                                {lead.lead_source?.name}
+                                {lead.source?.name}
                               </p>
                             </div>
                             <div className="col">
@@ -381,7 +429,8 @@ function List() {
                                   </Link>
                                   <ul
                                     className={`dropdown-menu dropdown-list dropdown-menu-end dropdown-menu-arrow profile ${
-                                      showDropdown && selectedLead?.id === lead.id
+                                      showDropdown &&
+                                      selectedLead?.id == lead.id
                                         ? "show"
                                         : "hidden"
                                     }`}
@@ -408,7 +457,9 @@ function List() {
                                     <li>
                                       <Link
                                         onClick={() =>
-                                          handleDeleteButtonClick(selectedLead?.id)
+                                          handleDeleteButtonClick(
+                                            selectedLead?.id
+                                          )
                                         }
                                         className="dropdown-item d-flex align-items-center text-danger"
                                       >
